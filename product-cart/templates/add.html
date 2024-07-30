@@ -1,0 +1,80 @@
+{% extends "index.html" %} {% block title %}
+<title>Add Product</title>
+{% endblock %} {% block contents %}
+<style>
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+
+  .toast.show {
+    opacity: 1;
+    visibility: visible;
+  }
+</style>
+<div id="toast" class="toast">
+  <span class="toast-message"></span>
+</div>
+<form
+  action="{{ url_for('add_product') }}"
+  method="POST"
+  id="addProductForm"
+  class="popup-form"
+  onsubmit="return validateForm_2()"
+>
+  <select name="category" style="font-size: 17px; text-align: center">
+    <option>Select a category</option>
+    {% for product in products %}
+    <option value="{{ product.category }}">{{ product.category }}</option>
+    {% endfor %}
+  </select>
+  <div class="form-inputs">
+    <input type="text" name="name" placeholder="Name" />
+    <input type="text" name="quantity" placeholder="Quantity" />
+    <input type="text" name="description" placeholder="Description" />
+    <input type="text" name="price" placeholder="Price" />
+  </div>
+  <span onclick="closeProductsPopup()" class="close-button">
+    <img src="{{ url_for('static', filename='css/cross.png') }}" />
+  </span>
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+  function validateForm() {
+    let category = document.getElementById("category").value;
+    let name = document.getElementById("name").value;
+    let quantity = document.getElementById("quantity").value;
+    let description = document.getElementById("description").value;
+    let price = document.getElementById("price").value;
+
+    if (
+      category === "" ||
+      name === "" ||
+      quantity === "" ||
+      description === "" ||
+      price === ""
+    ) {
+      let errorMessage = document.createElement("span");
+      errorMessage.textContent = "*please fill all the required fields!";
+      errorMessage.style.color = "red";
+      errorMessage.style.fontSize = "17px";
+      errorMessage.style.fontVariant = "petite-caps";
+      errorMessage.style.position = "relative";
+      document
+        .getElementById("add_product")
+        .insertBefore(errorMessage, document.getElementById("category_submit"));
+      return false;
+    }
+  }
+</script>
+{% endblock %}

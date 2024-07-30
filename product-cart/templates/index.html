@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block title %}
+    <title>Document</title>
+    {% endblock %}
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        display: flex;
+        width: 100%;
+        background-color: rgb(248 248 248 / 79%);
+        height: 100%;
+      }
+      .left-side {
+        height: 38%;
+        width: 16%;
+        background-color: rgb(22 22 22 / 87%);
+        margin-top: 15%;
+        margin-left: 3%;
+        margin-right: 3%;
+        border-radius: 30px;
+      }
+      .right-side {
+        width: 80%;
+        background-color: rgb(248 248 248 / 79%);
+      }
+      #dashboard_btn {
+        transition: transform 0.5s;
+      }
+      #add_btn {
+        transition: transform 0.5s;
+      }
+      #dashboard_btn:hover {
+        /* transform: scale(1.3); */
+        background-color: antiquewhite;
+      }
+      #add_btn:hover {
+        /* transform: scale(1.3); */
+        background-color: antiquewhite;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-side">
+        <button
+          id="dashboard_btn"
+          onclick="window.location.href='/dashboard'"
+          style="
+            margin-top: 30%;
+            margin-left: 24%;
+            width: 50%;
+            font-size: 16px;
+            text-align: center;
+            height: 15%;
+            cursor: pointer;
+            color: white;
+            border-radius: 3px;
+            background-color: transparent;
+            border-color: transparent;
+            font-variant: petite-caps;
+            letter-spacing: 3px;
+          "
+        >
+          Dashboard
+        </button>
+        <button
+          id="add_btn"
+          onclick="window.location.href='/add_category'"
+          style="
+            margin-left: 25%;
+            width: 50%;
+            height: 15%;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+            border-radius: 3px;
+            background-color: transparent;
+            border-color: transparent;
+            margin-top: 30%;
+            font-variant: petite-caps;
+            letter-spacing: 3px;
+            text-align: center;
+          "
+        >
+          Add
+        </button>
+      </div>
+      <div class="right-side">
+        {% block contents %}
+        <span
+          style="
+            position: relative;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            top: 50%;
+            color: red;
+          "
+          >No products yet!</span
+        >
+        {% endblock %}
+      </div>
+    </div>
+  </body>
+</html>

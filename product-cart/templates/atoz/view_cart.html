@@ -1,0 +1,232 @@
+{% extends "atoz/home.html" %} {% block contents %}
+<style>
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+  }
+
+  .container {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #b3b3b3f0;
+  }
+
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+
+  .product {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .product:last-child {
+    border-bottom: none;
+  }
+
+  .product-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 5%;
+    gap: 4px;
+  }
+
+  .product-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-family: cursive;
+    font-variant: all-small-caps;
+  }
+
+  .product-category {
+    font-size: 18px;
+    font-variant: small-caps;
+  }
+
+  .product-price {
+    color: #3b3b3b;
+    margin-bottom: 5px;
+    font-size: 17px;
+  }
+
+  .product-description {
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
+    font-family: cursive;
+    font-size: 16px;
+  }
+
+  .product-quantity {
+    color: #131313;
+    margin-bottom: 5px;
+    font-size: 17px;
+  }
+
+  .back-link {
+    font-style: italic;
+    font-size: 20px;
+    display: block;
+    text-align: center;
+    margin: 20px 0;
+    color: #1769ff;
+    width: 15%;
+    text-decoration: none;
+    font-variant: all-petite-caps;
+    margin-left: 42%;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+</style>
+{% if products %}
+<div class="container">
+  <h1
+    style="
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      color: ghostwhite;
+    "
+  >
+    Products in Your Cart
+  </h1>
+  <button
+    id="dashboard_btn"
+    onclick="window.location.href='/checkout'"
+    style="
+      top: 10%;
+      margin-left: 90%;
+      width: 10%;
+      font-size: 22px;
+      margin-top: 3%;
+      text-align: center;
+      cursor: pointer;
+      color: rgb(220 255 0);
+      border-radius: 3px;
+      background-color: #63636396;
+      border-color: transparent;
+      font-variant: petite-caps;
+      position: absolute;
+      letter-spacing: 2px;
+      font-family: cursive;
+      height: 35px;
+    "
+  >
+    Checkout
+  </button>
+  {% for product in products %}
+  <div class="product">
+    <div class="product-details">
+      <div class="product-name">{{ product.name }}</div>
+      <div class="product-category">{{ product.category }}</div>
+      <div class="product-price">₹ {{ product.calculated_price }}</div>
+      <div style="display: flex; flex-direction: row; gap: 25px">
+        <div class="product-quantity">
+          Quantity added: {{ request.cookies.get('product_' ~ product.id ~
+          '_quantity') }}
+        </div>
+        <form
+          action="{{ url_for('increment_cart', product_id=product.id) }}"
+          method="post"
+        >
+          <button
+            style="
+              background-color: #ffc21c;
+              font-size: 14px;
+              border: 1px solid darkred;
+              font-family: fantasy;
+              width: 110%;
+              cursor: pointer;
+            "
+            type="submit"
+          >
+            +
+          </button>
+        </form>
+        <form
+          action="{{ url_for('decrement_cart', product_id=product.id) }}"
+          method="post"
+        >
+          <button
+            style="
+              background-color: #ff271c;
+              font-size: 14px;
+              border: 1px solid darkred;
+              font-family: fantasy;
+              width: 110%;
+              cursor: pointer;
+            "
+            type="submit"
+          >
+            -
+          </button>
+        </form>
+      </div>
+      <div class="product-description">{{ product.description }}</div>
+    </div>
+  </div>
+  {% endfor %}
+  <a href="{{ url_for('user') }}" class="back-link">Back to Products</a>
+  {% else %} {% if 'user_mail' not in session%}
+  <button
+    id="dashboard_btn"
+    onclick="window.location.href='/checkout'"
+    style="
+      top: 10%;
+      margin-left: 90%;
+      width: 10%;
+      font-size: 22px;
+      margin-top: 3%;
+      text-align: center;
+      cursor: pointer;
+      color: rgb(220 255 0);
+      border-radius: 3px;
+      background-color: #63636396;
+      border-color: transparent;
+      font-variant: petite-caps;
+      position: absolute;
+      letter-spacing: 2px;
+      font-family: cursive;
+      height: 35px;
+    "
+  >
+    Login
+  </button>
+  {% endif %}
+  <div
+    class="container"
+    style="
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      color: ghostwhite;
+    "
+  >
+    <h2
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        align-self: center;
+      "
+    >
+      No products in your cart!
+    </h2>
+    <a href="{{ url_for('user') }}" class="back-link">Add products now!</a>
+  </div>
+  {% endif %}
+  <span style="top: 90%; position: absolute; color: red; left: 40%">
+    {% for message in get_flashed_messages() %}
+    <p style="font-size: 20px; color: red">{{ message }}</p>
+    {% endfor %}
+  </span>
+</div>
+{% endblock %}

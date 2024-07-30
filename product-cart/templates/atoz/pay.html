@@ -1,0 +1,125 @@
+{% extends "atoz/home.html" %} {% block contents %}
+
+<style>
+  body {
+    background-color: #b3b3b3f0;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  label {
+    margin-top: 10%;
+    font-size: 20px;
+    font-family: cursive;
+    letter-spacing: 2px;
+  }
+
+  input {
+    text-align: center;
+    font-size: 17px;
+    font-variant: common-ligatures;
+    color: black;
+    margin-top: 5%;
+  }
+
+  button {
+    width: 125%;
+    font-size: 17px;
+    margin-top: 10%;
+    background-color: rgba(127, 255, 232, 0.895);
+    border: 2px solid #ff8c00c8;
+    font-variant: all-petite-caps;
+    font-family: cursive;
+    letter-spacing: 3px;
+    cursor: pointer;
+  }
+
+  span {
+    top: 72%;
+    position: fixed;
+    color: red;
+    left: 42%;
+  }
+</style>
+{% block button %}
+<button
+  id="dashboard_btn"
+  onclick="window.location.href='/view_cart'"
+  style="
+    margin-top: -2%;
+    margin-left: 90%;
+    width: 10%;
+    font-size: 25px;
+    text-align: center;
+    height: 10%;
+    cursor: pointer;
+    color: white;
+    border-radius: 3px;
+    background-color: transparent;
+    border-color: transparent;
+    font-variant: petite-caps;
+    position: absolute;
+    font-family: cursive;
+    letter-spacing: 3px;
+  "
+>
+  <h4 style="height: 0%; color: beige">{{total_count}}</h4>
+  <img
+    src="/static/css/cart.png"
+    alt="Total Count"
+    style="width: 46px; height: 46px; margin-top: 15.6%"
+  />
+</button>
+{% if 'user_mail' in session%}
+<button
+  id="dashboard_btn"
+  onclick="window.location.href='/logout'"
+  style="
+    margin-top: 42%;
+    margin-left: 90%;
+    width: 10%;
+    font-size: 23px;
+    text-align: center;
+    height: 10%;
+    cursor: pointer;
+    color: white;
+    border-radius: 3px;
+    background-color: transparent;
+    border-color: transparent;
+    font-variant: petite-caps;
+    position: absolute;
+    letter-spacing: 3px;
+    font-family: cursive;
+  "
+>
+  Logout
+</button>
+{% endif %} {% endblock %}
+<div
+  style="
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    margin-top: 13%;
+    align-items: center;
+  "
+>
+  <form method="POST" action="/checkout/pay">
+    <label for="otp">OTP</label>
+    <input type="text" id="otp" name="otp" placeholder="..." />
+    <button type="submit">Submit</button>
+  </form>
+  <span>
+    {% for message in get_flashed_messages() %}
+    <p style="font-size: 20px; color: red">{{ message }}</p>
+    {% endfor %}
+  </span>
+</div>
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "atoz/home.html" %}{% block contents %}
+<style>
+  body {
+    background-color: #b3b3b3f0;
+  }
+</style>
+
+<div
+  style="
+    top: 45%;
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    width: 0%;
+    margin-left: 50%;
+    align-items: center;
+    text-align: center;
+    font-size: 30px;
+  "
+>
+  <a href="{{ url_for('user') }}" style="color: blue; text-decoration: none"
+    >success, shall be delivered soon!</a
+  >
+</div>
+{% block button %}
+<button
+  id="dashboard_btn"
+  onclick="window.location.href='/view_cart'"
+  style="
+    margin-top: -2%;
+    margin-left: 90%;
+    width: 10%;
+    font-size: 25px;
+    text-align: center;
+    height: 10%;
+    cursor: pointer;
+    color: white;
+    border-radius: 3px;
+    background-color: transparent;
+    border-color: transparent;
+    font-variant: petite-caps;
+    position: absolute;
+    font-family: cursive;
+    letter-spacing: 3px;
+  "
+>
+  <h4 style="height: 0%; color: beige">{{total_count}}</h4>
+  <img
+    src="/static/css/cart.png"
+    alt="Total Count"
+    style="width: 46px; height: 46px; margin-top: 16%"
+  />
+</button>
+{% if 'user_mail' in session%}
+<button
+  id="dashboard_btn"
+  onclick="window.location.href='/logout'"
+  style="
+    margin-top: 42%;
+    margin-left: 90%;
+    width: 10%;
+    font-size: 23px;
+    text-align: center;
+    height: 10%;
+    cursor: pointer;
+    color: white;
+    border-radius: 3px;
+    background-color: transparent;
+    border-color: transparent;
+    font-variant: petite-caps;
+    position: absolute;
+    letter-spacing: 3px;
+    font-family: cursive;
+  "
+>
+  Logout
+</button>
+{% endif %} {% endblock %} {% endblock %}

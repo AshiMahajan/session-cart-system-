@@ -1,0 +1,332 @@
+{% extends "index.html" %} {% block title %}
+<title>Add Category</title>
+{% endblock %} {% block contents %}
+<style>
+  #add_product {
+    transition: transform 0.5s;
+  }
+  #add_product:hover {
+    transform: scale(1.005);
+    transition: ease-in-out 0.5s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.263);
+  }
+</style>
+
+<form
+  action="{{ url_for('add_category') }}"
+  method="POST"
+  id="add_product"
+  onsubmit="return validateForm()"
+  style="
+    display: flex;
+    flex-direction: column;
+    width: 41%;
+    height: 62%;
+    margin-top: 8%;
+    align-items: center;
+    background-color: #d9b8df8c;
+    border: 2px solid #b1b1b185;
+    margin-left: 25%;
+    padding: 46px;
+    font-size: 21px;
+    gap: 15px;
+    border-radius: 279px;
+  "
+>
+  <label
+    style="
+      font-size: 16px;
+      font-variant: all-small-caps;
+      font-family: cursive;
+      letter-spacing: 4px;
+    "
+    for="category"
+    >Enter New Category</label
+  >
+  <input
+    type="text"
+    name="category"
+    id="category"
+    placeholder="...category..."
+    style="
+      font-size: 16px;
+      border-radius: 15px;
+      width: 50%;
+      text-align: center;
+      border: 1px solid #0093ffbd;
+      font-variant: petite-caps;
+      height: 35%;
+    "
+  />
+
+  <label
+    style="
+      font-size: 16px;
+      font-variant: all-small-caps;
+      font-family: cursive;
+      letter-spacing: 4px;
+    "
+    for="name"
+    >Enter Name</label
+  >
+  <input
+    type="text"
+    name="name"
+    id="name"
+    placeholder="...name..."
+    style="
+      font-size: 16px;
+      border-radius: 15px;
+      width: 50%;
+      text-align: center;
+      border: 1px solid #0093ffbd;
+      font-variant: petite-caps;
+      height: 35%;
+    "
+  />
+
+  <label
+    style="
+      font-size: 16px;
+      font-variant: all-small-caps;
+      font-family: cursive;
+      letter-spacing: 4px;
+    "
+    for="quantity"
+    >Enter Quantity</label
+  >
+  <input
+    type="text"
+    name="quantity"
+    id="quantity"
+    placeholder="...quantity..."
+    style="
+      font-size: 16px;
+      border-radius: 15px;
+      width: 50%;
+      text-align: center;
+      border: 1px solid #0093ffbd;
+      font-variant: petite-caps;
+      height: 35%;
+    "
+  />
+
+  <label
+    style="
+      font-size: 16px;
+      font-variant: all-small-caps;
+      font-family: cursive;
+      letter-spacing: 4px;
+    "
+    for="description"
+    >Enter Description</label
+  >
+  <input
+    type="text"
+    name="description"
+    id="description"
+    placeholder="...description..."
+    style="
+      font-size: 16px;
+      border-radius: 15px;
+      width: 50%;
+      text-align: center;
+      border: 1px solid #0093ffbd;
+      font-variant: petite-caps;
+      height: 35%;
+    "
+  />
+
+  <label
+    style="
+      font-size: 16px;
+      font-variant: all-small-caps;
+      font-family: cursive;
+      letter-spacing: 4px;
+    "
+    for="price"
+    >Enter Price</label
+  >
+  <input
+    type="text"
+    name="price"
+    id="price"
+    placeholder="...price..."
+    style="
+      font-size: 16px;
+      border-radius: 15px;
+      width: 50%;
+      text-align: center;
+      border: 1px solid #0093ffbd;
+      font-variant: petite-caps;
+      height: 35%;
+    "
+  />
+
+  <input
+    id="category_submit"
+    style="
+      cursor: pointer;
+      width: 51%;
+      font-weight: 900;
+      height: 38%;
+      background-color: bisque;
+      border: 2px solid #76767691;
+      border-radius: 6px;
+      font-variant: all-petite-caps;
+      font-family: cursive;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #5600ff;
+    "
+    type="submit"
+    value="Add Category"
+  />
+</form>
+
+<script>
+  function validateForm() {
+    let category = document.getElementById("category").value;
+    let name = document.getElementById("name").value;
+    let quantity = document.getElementById("quantity").value;
+    let description = document.getElementById("description").value;
+    let price = document.getElementById("price").value;
+
+    if (
+      category === "" ||
+      name === "" ||
+      quantity === "" ||
+      description === "" ||
+      price === ""
+    ) {
+      let errorMessage = document.createElement("span");
+      errorMessage.textContent = "*please fill all the required fields!";
+      errorMessage.style.color = "red";
+      errorMessage.style.fontSize = "17px";
+      errorMessage.style.fontVariant = "petite-caps";
+      errorMessage.style.position = "relative";
+      document
+        .getElementById("add_product")
+        .insertBefore(errorMessage, document.getElementById("category_submit"));
+      return false;
+    }
+
+    /* 
+    
+    if (category === "") {
+      let errorMessage = document.createElement("span");
+      errorMessage.textContent = "category cannot be empty!";
+      errorMessage.style.color = "red";
+      errorMessage.style.fontSize = "14px";
+      errorMessage.style.fontVariant = "petite-caps";
+      errorMessage.style.position = "relative";
+      document
+        .getElementById("add_product")
+        .insertBefore(errorMessage, document.getElementById("category"));
+      return false;
+    }
+    if (name === "") {
+      let errorMessage = document.createElement("span");
+      errorMessage.textContent = "name cannot be empty!";
+      errorMessage.style.color = "red";
+      errorMessage.style.fontSize = "14px";
+      errorMessage.style.fontVariant = "petite-caps";
+      errorMessage.style.position = "relative";
+      document
+        .getElementById("add_product")
+        .insertBefore(errorMessage, document.getElementById("name"));
+      return false;
+    }
+    if (quantity === "") {
+      let errorMessage = document.createElement("span");
+      errorMessage.textContent = "quantity cannot be empty!";
+      errorMessage.style.color = "red";
+      errorMessage.style.fontSize = "14px";
+      errorMessage.style.fontVariant = "petite-caps";
+      errorMessage.style.position = "relative";
+      document
+        .getElementById("add_product")
+        .insertBefore(errorMessage, document.getElementById("quantity"));
+      return false;
+    }
+    if (description === "") {
+      let errorMessage = document.createElement("span");
+      errorMessage.textContent = "description cannot be empty!";
+      errorMessage.style.color = "red";
+      errorMessage.style.fontSize = "14px";
+      errorMessage.style.fontVariant = "petite-caps";
+      errorMessage.style.position = "relative";
+      document
+        .getElementById("add_product")
+        .insertBefore(errorMessage, document.getElementById("description"));
+      return false;
+    }
+    if (price === "") {
+      let errorMessage = document.createElement("span");
+      errorMessage.textContent = "price cannot be empty!";
+      errorMessage.style.color = "red";
+      errorMessage.style.fontSize = "14px";
+      errorMessage.style.fontVariant = "petite-caps";
+      errorMessage.style.position = "relative";
+      document
+        .getElementById("add_product")
+        .insertBefore(errorMessage, document.getElementById("price"));
+      return false;
+    }
+
+*/
+
+    if (isNaN(quantity)) {
+      let errorMessage = document.createElement("span");
+      errorMessage.textContent = "quantity must be a number!";
+      errorMessage.style.color = "red";
+      errorMessage.style.fontSize = "17px";
+      errorMessage.style.fontVariant = "petite-caps";
+      errorMessage.style.position = "relative";
+      document
+        .getElementById("add_product")
+        .insertBefore(errorMessage, document.getElementById("category_submit"));
+      return false;
+    }
+    if (isNaN(price)) {
+      let errorMessage = document.createElement("span");
+      errorMessage.textContent = "price must be a number!";
+      errorMessage.style.color = "red";
+      errorMessage.style.fontSize = "17px";
+      errorMessage.style.fontVariant = "petite-caps";
+      errorMessage.style.position = "relative";
+      document
+        .getElementById("add_product")
+        .insertBefore(errorMessage, document.getElementById("category_submit"));
+      return false;
+    }
+
+    if (quantity < 0) {
+      let errorMessage = document.createElement("span");
+      errorMessage.textContent = "quantity cannot be negative!";
+      errorMessage.style.color = "red";
+      errorMessage.style.fontSize = "17px";
+      errorMessage.style.fontVariant = "petite-caps";
+      errorMessage.style.position = "relative";
+      document
+        .getElementById("add_product")
+        .insertBefore(errorMessage, document.getElementById("category_submit"));
+      return false;
+    }
+    if (price < 0) {
+      let errorMessage = document.createElement("span");
+      errorMessage.textContent = "price cannot be negative!";
+      errorMessage.style.color = "red";
+      errorMessage.style.fontSize = "17px";
+      errorMessage.style.fontVariant = "petite-caps";
+      errorMessage.style.position = "relative";
+      document
+        .getElementById("add_product")
+        .insertBefore(errorMessage, document.getElementById("category_submit"));
+      return false;
+    }
+
+    return true;
+  }
+</script>
+{% endblock %}

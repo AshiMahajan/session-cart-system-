@@ -1,0 +1,215 @@
+{% extends "index.html" %}{% block title %} <title>Dashboard</title> {% endblock
+%} {% block contents %}
+<script>
+  function showProductsPopup() {
+    document.getElementById("popup").style.display = "block";
+  }
+  function closeProductsPopup() {
+    document.getElementById("popup").style.display = "none";
+  }
+</script>
+<style>
+  .container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+
+  .main-content {
+    flex: 4;
+    width: 80%;
+    padding: 20px;
+  }
+
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid black;
+    margin-top: 5%;
+  }
+  .styled-table tr {
+    font-variant: petite-caps;
+    font-size: 17px;
+  }
+  .styled-table th,
+  .styled-table td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .styled-table th {
+    background-color: #5edca1;
+  }
+
+  .styled-table tbody tr:hover {
+    background-color: #e3e3e3cf;
+  }
+  .popup-form {
+    display: none;
+    position: absolute;
+    left: 46%;
+    top: 28%;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.21);
+    height: 50%;
+    width: 26%;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .popup-form:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.247);
+  }
+  .popup-form select,
+  .popup-form input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 15px;
+    text-align: center;
+    font-variant: petite-caps;
+    margin-top: 3%;
+  }
+
+  .popup-form .form-inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .popup-form .close-button {
+    position: absolute;
+    top: -21px;
+    right: -13px;
+    cursor: pointer;
+    width: 9%;
+  }
+
+  .popup-form button[type="submit"] {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 5%;
+    width: 50%;
+  }
+
+  .popup-form button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  #add_hover:hover {
+    background-color: #44eb44;
+    cursor: pointer;
+  }
+  .flash-messages {
+    display: flex;
+    left: 67%;
+    top: 0%;
+    color: red;
+    font-size: 17px;
+    font-variant: petite-caps;
+    position: absolute;
+  }
+</style>
+<div class="container">
+  <h1
+    style="
+      position: absolute;
+      display: flex;
+      margin-left: 2%;
+      font-variant: all-small-caps;
+      font-style: italic;
+      font-size: 28px;
+      top: 1%;
+    "
+  >
+    List of all the products
+  </h1>
+
+  {% with messages = get_flashed_messages() %} {% if messages %}
+  <ul class="flash-messages">
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+  </ul>
+  {% endif %} {% endwith %}
+  <button
+    id="add_hover"
+    style="
+      width: 10%;
+      position: absolute;
+      margin-left: 66.7%;
+      background-color: #6fff6f;
+      margin-top: 2%;
+      height: 4%;
+      color: black;
+      border-radius: 5px;
+      font-variant: all-small-caps;
+      font-style: oblique;
+      font-size: 15px;
+    "
+    onclick="showProductsPopup()"
+  >
+    Add
+  </button>
+  <form
+    action="{{ url_for('add_product') }}"
+    method="POST"
+    id="popup"
+    class="popup-form"
+  >
+    <select name="category" style="font-size: 17px; text-align: center">
+      <option>Select a category</option>
+      {% set seen_categories = [] %} {% for product in products %} {% if
+      product.category not in seen_categories %}
+      <option value="{{ product.category }}">{{ product.category }}</option>
+      {% set _ = seen_categories.append(product.category) %} {% endif %} {%
+      endfor %}
+    </select>
+    <div class="form-inputs">
+      <input type="text" name="name" placeholder="Name" />
+      <input type="text" name="quantity" placeholder="Quantity" />
+      <input type="text" name="description" placeholder="Description" />
+      <input type="text" name="price" placeholder="Price" />
+    </div>
+    <span onclick="closeProductsPopup()" class="close-button"
+      ><img src="{{ url_for('static', filename='css/cross.png') }}"
+    /></span>
+    <button type="submit">Submit</button>
+  </form>
+  <div class="main-content">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Quantities</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Category</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr>
+          <td>{{ product.id }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.quantity }}</td>
+          <td>{{ product.description }}</td>
+          <td>₹ {{ product.price }}</td>
+          <td>{{ product.category }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

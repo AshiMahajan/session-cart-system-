@@ -1,0 +1,7 @@
+    user = User(
+                    name=name,
+                    email=email,
+                )
+                db.session.add(user)
+                db.session.commit()
+                session["user_name"] = user.name
